@@ -4,49 +4,17 @@ import Html exposing (Html, div, p, a, text, program)
 
 import Html.Attributes exposing (href)
 
-import Navigation exposing (Location)
-
-import UrlParser exposing (Parser, (</>), s, parseHash)
-
-
-
-
-
--- ROUTE
-type Route
-    = Home
-    | NotFoundRoute
-
-
-matchers : Parser (Route -> a) a
-matchers =
-    UrlParser.oneOf
-      [ UrlParser.map Home UrlParser.top
-    ]
-
-
-parseLocation : Location -> Route
-parseLocation location =
-    case (parseHash matchers location) of
-        Just route ->
-            route
-
-        Nothing ->
-            NotFoundRoute
-
-
 
 
 
 -- VARS
-name : String
-name = "Oliver Taylor"
-
-twitterHandle : String
-twitterHandle = "https://twitter.com/0liverJTaylor"
-
-jobtitle : String
-jobtitle = "Front End Developer"
+details = 
+  {
+    name = "Oliver Taylor"
+  , jobtitle = "Front End Developer"
+  , twitterHandle = "https://twitter.com/0liverJTaylor"
+  , githubHandle = "https://github.com/olitaylor"
+  }
 
 
 
@@ -71,21 +39,26 @@ middleStyle : List (String, String)
 middleStyle =
   [ 
     ("display", "table-cell"),
-    ("vertical-align", "middle")
+    ("vertical-align", "middle"),
+    ("position", "relative"),
+    ("background", "#141e30"),
+    ("background", "-webkit-linear-gradient(to right, #141e30, #243b55"),
+    ("background", "linear-gradient(to right, #141e30, #243b55)")
   ]
 
 innerStyle : List (String, String)
 innerStyle =
   [ 
     ("margin", "0 auto"),
-    ("width", "400px")
+    ("width", "400px"),
+    ("color", "#ffffff")
   ]
 
 titleStyle : List (String, String)
 titleStyle = 
   [
     ("display", "block"),
-    ("font-size", "24px")
+    ("font-size", "30px")
   ]
 
 jobStyle : List (String, String)
@@ -93,6 +66,14 @@ jobStyle =
   [
     ("display", "block"),
     ("font-size", "18px")
+  ]
+
+linkStyle : List (String, String)
+linkStyle = 
+  [
+    ("margin", "5px"),
+    ("line-height", "24px"),
+    ("color", "#ffffff")
   ]
 
 
@@ -107,8 +88,10 @@ main =
       [
         div[ buildStyle [ innerStyle ]]
         [
-            p [ buildStyle [ titleStyle ] ] [ text name ] 
-          , p [ buildStyle [ jobStyle ] ] [ text jobtitle ]
+            p [ buildStyle [ titleStyle ] ] [ text details.name ] 
+          , p [ buildStyle [ jobStyle ] ] [ text details.jobtitle ]
+          , a [ href details.twitterHandle, buildStyle [ linkStyle ] ] [ text "Twitter" ]
+          , a [ href details.githubHandle, buildStyle [ linkStyle ] ] [ text "Github" ]
         ]
       ]
     ]
